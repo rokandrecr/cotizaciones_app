@@ -238,7 +238,7 @@ class CotizadorApp:
         
         # Título de la aplicación
         titulo_app = ttk.Label(marco_principal, 
-                            text="Sistema de Cotizaciones para Festivales", 
+                            text="Sistema de Cotizaciones para WLF", 
                             style="Title.TLabel")
         titulo_app.pack(pady=(15, 5))
         
@@ -289,12 +289,13 @@ class CotizadorApp:
         self.tree_disponibles.heading('precio', text='Precio (CRC)')
         self.tree_disponibles.heading('categoria', text='Categoría')
         
-        self.tree_disponibles.column('nombre', width=200, minwidth=150)
-        self.tree_disponibles.column('precio', width=100, minwidth=80, anchor=tk.E)
-        self.tree_disponibles.column('categoria', width=120, minwidth=100)
+        # Ajustar ancho de columnas para mejor visualización
+        self.tree_disponibles.column('nombre', width=250, minwidth=150)
+        self.tree_disponibles.column('precio', width=120, minwidth=80, anchor=tk.E)
+        self.tree_disponibles.column('categoria', width=150, minwidth=100)
         
         # Configurar colores alternos para filas
-        self.tree_disponibles.tag_configure('odd', background='#f6f6f6')
+        self.tree_disponibles.tag_configure('odd', background='#f8f9fa')
         self.tree_disponibles.tag_configure('even', background='white')
         
         # Añadir scrollbars
