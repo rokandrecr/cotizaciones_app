@@ -8,6 +8,8 @@ import tkinter as tk
 from tkinter import ttk, messagebox
 import platform
 from logica_cotizador import GestorCotizaciones, OPENPYXL_DISPONIBLE
+import ttkbootstrap as ttk
+from ttkbootstrap.constants import *
 
 class Tooltip:
     """
@@ -72,6 +74,9 @@ class CotizadorApp:
             root: Ventana principal de la aplicación
         """
         self.root = root
+        # Cambiar a tema claro y moderno
+        self.style = ttk.Style("flatly")  # Puedes probar con: "flatly", "cosmo", "yeti", "lumen", etc.
+        
         self.root.title("Cotizador de We Love Flowers")
         self.root.geometry("1000x650")
         self.root.minsize(900, 600)
@@ -83,9 +88,6 @@ class CotizadorApp:
         # Crear el gestor de lógica de negocio
         self.gestor = GestorCotizaciones()
         self.gestor.cargar_cotizaciones_iniciales()
-        
-        # Configurar el estilo
-        self.configurar_estilo()
         
         # Crear el marco principal
         self.crear_interfaz()
@@ -336,34 +338,36 @@ class CotizadorApp:
         )
         btn_eliminar_cotizacion.pack(side=tk.LEFT)
         Tooltip(btn_eliminar_cotizacion, "Eliminar la cotización seleccionada del sistema")
-        
-        # ----- BOTONES CENTRALES -----
-        marco_botones = ttk.Frame(marco_columnas, padding=5)
+
+                # ----- BOTONES CENTRALES -----
+        marco_botones = ttk.Frame(marco_columnas, padding=10)
         marco_botones.pack(side=tk.LEFT, fill=tk.Y)
-        
+
         # Espacio para centrar visualmente
         ttk.Frame(marco_botones, height=50).pack()
-        
-        # Botón para agregar a la cotización
+
+        # Botón para agregar a la cotización (con ícono)
         self.btn_agregar = ttk.Button(
             marco_botones, 
-            text="→", 
-            style='Action.TButton',
+            text="Agregar →",  # Texto más descriptivo
+            style='success.TButton',  # Estilo de bootstrap (verde)
+            width=12,
             command=self.agregar_a_seleccionadas
         )
         self.btn_agregar.pack(pady=5)
         Tooltip(self.btn_agregar, "Agregar el ítem seleccionado a la cotización actual")
-        
-        # Botón para quitar de la cotización
+
+        # Botón para quitar de la cotización (con ícono)
         self.btn_quitar = ttk.Button(
             marco_botones, 
-            text="←", 
-            style='Action.TButton',
+            text="← Quitar",  # Texto más descriptivo
+            style='danger.TButton',  # Estilo de bootstrap (rojo)
+            width=12,
             command=self.quitar_de_seleccionadas
         )
         self.btn_quitar.pack(pady=5)
         Tooltip(self.btn_quitar, "Quitar el ítem seleccionado de la cotización actual")
-        
+
         # ----- COLUMNA DERECHA: SELECCIONADAS -----
         marco_seleccionadas = ttk.LabelFrame(marco_columnas, text="Cotización Actual", padding=10)
         marco_seleccionadas.pack(side=tk.LEFT, fill=tk.BOTH, expand=True, padx=(10, 0))
@@ -434,39 +438,33 @@ class CotizadorApp:
             anchor=tk.E
         )
         self.lbl_total.pack(side=tk.RIGHT)
-        
+
         # ----- BOTONES DE ACCIÓN -----
         marco_acciones = ttk.Frame(marco_principal, padding=(20, 10))
         marco_acciones.pack(fill=tk.X, pady=10)
-        
+
         # Botón para generar Excel
         btn_guardar = ttk.Button(
             marco_acciones, 
             text="Guardar Cotización", 
-            style="Accent.TButton",
+            style="success.Outline.TButton",  # Estilo outline
+            width=20,
             command=self.guardar_cotizacion
         )
         btn_guardar.pack(side=tk.RIGHT, padx=5)
         Tooltip(btn_guardar, "Exportar la cotización actual a un archivo Excel")
-        
+
         # Botón para nueva cotización
         btn_nueva = ttk.Button(
             marco_acciones, 
             text="Nueva Cotización", 
+            style="info.Outline.TButton",  # Estilo outline azul
+            width=20,
             command=self.nueva_cotizacion
         )
         btn_nueva.pack(side=tk.RIGHT, padx=5)
         Tooltip(btn_nueva, "Iniciar una nueva cotización (limpia la selección actual)")
-        
-        # ----- BARRA DE ESTADO -----
-        self.barra_estado = ttk.Label(
-            self.root,
-            textvariable=self.status_message,
-            style="Status.TLabel",
-            anchor=tk.W
-        )
-        self.barra_estado.pack(side=tk.BOTTOM, fill=tk.X)
-    
+
     def actualizar_lista_disponibles(self):
         """Actualiza la lista de cotizaciones disponibles en la interfaz."""
         # Limpiar lista actual
