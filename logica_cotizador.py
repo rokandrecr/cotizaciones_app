@@ -449,7 +449,7 @@ class GestorCotizaciones:
                 
                 # Precio - formateo especial para números
                 celda = ws.cell(row=idx, column=2, value=precio)
-                celda.number_format = '$#,##0.00'
+                celda.number_format = ' ##0.00'
                 celda.alignment = alineacion_derecha
                 celda.border = borde
                 
@@ -470,7 +470,7 @@ class GestorCotizaciones:
             # Celda con el valor del total
             celda = ws.cell(row=fila_total, column=2, value=total)
             celda.font = estilo_total
-            celda.number_format = '$#,##0.00'
+            celda.number_format = '#0.00'
             celda.alignment = alineacion_derecha
             celda.border = borde
             
